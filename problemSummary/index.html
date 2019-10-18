@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="width:10px;height:10px;border:10px;"></div>
+    <div style="width:10px;height:10px;border:10px solid #000;"></div>
+    <script>
+      function Foo() {
+        var i = 0;
+        return function() {
+          console.log(i++);
+        };
+      }
+
+      var f1 = Foo(),
+        f2 = Foo();
+      f1();
+      f1();
+      f2();
+      function a(m, n) {
+        var b = function(l) {
+          return l <= m ? l * b(l + 1) : 1;
+        };
+
+        return b(m - n + 1);
+      }
+
+      console.log(a(4, 2));
+
+      function quchong(arr) {
+        var newArr = [];
+        arr.forEach(item => {
+          if (!newArr.find(d => tokebi(d) === tokebi(item))) {
+            newArr.push(item);
+          }
+        });
+        return newArr;
+      }
+
+      function tokebi(v) {
+        if (Array.isArray(v)) {
+          return v.toString();
+        }
+        if (Number.isNaN(v)) {
+          return "NaN";
+        }
+        if (v === null) {
+          return null;
+        }
+        if (typeof v === "object") {
+          return JSON.stringify(v);
+        }
+        return v;
+      }
+
+      a = {};
+      a.toString( ) //[object Object]
+    </script>
+  </body>
+</html>

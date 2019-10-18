@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>symbol</title>
+</head>
+<body>
+    <script>                                                                                                                                                                                                         
+        //ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。它是 JavaScript 语言的第七种数据类型，
+        //前六种是：undefined、null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+        //Symbol函数前不能使用new命令，否则会报错。这是因为生成的 Symbol 是一个原始类型的值，不是对象
+        //也就是说，由于 Symbol 值不是对象，所以不能添加属性。基本上，它是一种类似于字符串的数据类型。
+
+         //有时希望在不同代码中共享一个Symbol，
+        //ES6中提供了一个可随时访问的全局Symbol注册表，可通过Symbol.for()创建共享的Symbol。
+        let name = Symbol.for('name');
+        let p  = {
+            [name]:'shi'
+        };
+        let othername = Symbol.for('name') ;
+        console.log(name === othername); //true
+        console.log(p[othername]);// shi
+    </script>
+</body>
+</html>

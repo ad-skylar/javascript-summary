@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //求和1
+      // var sum = arr =>{
+      //     var s= 0;
+      //    arr.forEach(e => {
+      //        s += e;
+
+      //    });
+      //    return s;
+      // }
+
+      //求和2
+      let sum = arr => {
+        return arr.reduce((prev, cur) => {
+          return prev + cur;
+        });
+      };
+      sum([1, 2, 3]);
+      const removeWithoutCopy = (arr, item) =>{
+        const newArr = arr.filter(e => e != item);
+        return newArr
+      }
+
+      // function removeWithoutCopy(arr, item) { 
+      //   arr.forEach((e, index) => {
+      //     if (e == item) {
+      //       arr.splice(index, 1);
+      //     }
+      //   });
+      //   return arr;
+      // }
+      // removeWithoutCopy([1, 2, 2, 3, 4, 2, 2], 2);
+
+      function removeWithoutCopy(arr, item) {
+        let index = arr.indexOf(item);
+        if (!~index) return arr;
+        arr.splice(index, 1);
+        return removeWithoutCopy(arr, item);
+    }
+    removeWithoutCopy([1, 2, 2, 3, 4, 2, 2], 2);
+    </script>
+  </body>
+</html>

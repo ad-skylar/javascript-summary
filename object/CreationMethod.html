@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     /**
+        *对象创建方式
+       对象字面量、
+        构造函数 、
+        工厂模式、
+        自定义构造函数、
+        原型模式、
+        组合使用构造函数和原型模式、
+        动态原型模式、
+        寄生构造函数模式、
+        稳妥构造函数模式
+     */
+    //1.构造函数
+    // var proson = new Object();
+    // person.name = 'shi';
+    // person.age = 18;
+    
+    //2.对象字面量
+    // var person2 = {
+    //     name = 'shi',
+    //     age = '18'
+    // }
+
+    // var person3 = {};
+    // person3.name = 'shigai';
+    // person3.age = '18';
+
+    /*
+    *3.工厂模式 用函数来封装
+        解决创建多个相似对象问题，
+        但是没有解决对象识别的问题（即怎样知道一个对象的类型）
+        也就是 instenceof Object）
+     */
+
+    function craetePerson(name,age,job){
+        var o = new Object;
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function(){
+            alert(this.name);
+        };
+        return o;
+    }
+   var person1 =  craetePerson('shi','18','software Engineer');
+   var person2 =  craetePerson('cao','28','software Engineer');
+
+   /*4.构造函数模式 自定义构造函数 
+   解决了对象识别， 但创建多个对象 一些相同的方法没有提取， 
+   如果相同方法放在全局， 则会污染全局
+   */
+   function Person(name,age,job){
+       this.name = name;
+       this.age = age;
+       this.job = job;
+       this.sayName = function(){
+           alert(this.name);
+       }
+   }
+   var person1 =  new Person('shi','18','software Engineer');
+   var person2 =  new Person('cao','28','software Engineer');
+    //要创建函数的新实例 必须要使用 new 操作符
+    /*
+      * 创建一个新对象
+      *将构造函数的作用域赋给新对象（因此this指向这个新对象）
+      *执行构造函数中的代码 （为这个新对象添加属性）
+      *返回新对象
+    */
+    /* 5.原型模式
+        我们创建的每个函数都有一个prototype（原型）属性，
+        这个属性是一个指针，指向对象，而这个对象的用途是包含所以特定类型的所有实例共享的属性和方法
+        使用原型对象的好处是可以让所以对象实例共享他所包含的属性和方法； 不必在构造函数中定义对象实例的信息，
+        而是将这些信息直接添加到原型对象中
+    */
+     function Person(){};
+     Person.prototype.name = "shi";
+     Person.prototype.age = '18';
+     Person.prototype.sayName = function(){
+         alert(this.name);
+     }
+    var person1 = new Person();
+    person1.sayName(); // shi
+    var person2 = new Person();
+    person2.sayName(); // shi
+    person1.sayName ==  person2.sayName; //true;
+    /*
+        6.组合使用原型模式和构造函数模式
+        实例放在原型中，共享的属性和方法放在原型中
+    */
+    /*
+     7.动态原型模式
+     它把所以信息都封装在了构造函数中，而通过构造函数中初始化原型，
+     又保持了同时使用构造函数和原型的优点。换句话说，
+     可以通过检查某个应该存放的方法是否有效，
+     来决定是否初始化
+    */
+    function Person(name,age,job){
+       this.name = name;
+       this.age = age;
+       this.job = job;
+       //方法
+       if(typeof this.name != 'function'){
+           Person.prototype.sayName = function(){
+            alert(this.name);
+           }
+       }
+      
+   }
+   var friend =  new Person('shi','18','software Engineer');
+   friend.sayName();
+    /*
+    8.寄生构造函数：基本思想是创建一个函数，该函数的作用仅仅是封装创建对象的代码。然后再返回新创建的对象。
+    */
+    /*
+    9.稳妥构造函数模式 ：非常安全的模式。不使用this 和 new， 存在方法中 只能通过调用这个方法来获取。
+
+    */
+
+    //面相对象 ，他们都有类的概念，而通过类可以任意多个具有相同属性和方法的对象。其属性可以包含基本值，对象或许函数
+    var person = new Object();
+    person.name = 'shi';
+    person.age = 18;
+    person.job = 'Software Engineer';
+    //person.sayName =() =>{} 箭头函数没有prototype属性。箭头函数不能用作构造器，和 new一起用会抛出错误
+    person.sayName = function(){
+        alert(this.name); // person.name
+    }
+
+    var person ={
+        name = 'shi',
+        age = 18,
+        job = 'Software Engineer',
+        sayName:function(){
+            alert(this.name);
+        }
+   }; 
+    /**
+    *数据属性de特性
+   */
+    //Configurable：表示能否通过delete删除属性，能否修改属性，或者能否把属性修改为访问器属性。默认值true
+    //Enumberable：表示能否通过 for in 循环返回属性。 默认值true
+    //Writable：表示能否修改属性的值。默认值true
+    // value
+
+    //要修改属性的默认值，必须使用object.defineProperty()方法。
+    //这些特性使用Object.defineproperty()修改之后，不能再修改；除writable之外的特性都报错
+    //Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。
+    var person = {};
+    Object.defineProperty(person,'name',{
+        configurable:false,
+        value :'shi'
+    })
+    person.name ='cao';
+    console.log( person.name);//shi
+   /**
+    *访问器属性
+   */
+    //Configurable
+    //Enumberable
+    //Get 在读取属性时调用的函数。 默认值undefined
+    //Set 在写入属性时调用的函数。 默认值undefined
+  
+   //定义多个属性Object.defineProperties()
+
+    /**
+    *读取属性的特性
+   */
+   //Object.getOwnpropertyDescriprtor()
+
+
+
+
+   //对象的枚举 for in
+   // Object.keys
+   //Object.getOwnPerpertyNames() //包含不可枚举的constructor
+
+
+   function Person() {};
+   var friend = new Person();
+   Person.prototype={
+    name : 'shi',
+    age : 18,
+    job : 'Software Engineer',
+    //person.sayName =() =>{} 箭头函数没有prototype属性。箭头函数不能用作构造器，和 new一起用会抛出错误
+    sayName : function(){
+        alert(this.name); // person.name
+    }
+   }
+     friend.sayName();
+</script>
+</body>
+</html>

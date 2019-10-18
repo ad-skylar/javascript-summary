@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+<body>
+    <script>
+        // 语法：
+        new Promise(function(resolve,reject){})
+        //javascript所有的代码都是单线程执行的，所以用promise处理异步。
+        //resolve 和 reject函数被调用时，分别将promise的状态改为fulled（完成）或regected（失败）
+        // 1、promise.then()方法返回一个promise，它最多需要两个参数，promise的成功和失败情况的回调函数
+        // 2、promise.all()方法，两个任务的并行处理；
+        var p1 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 500, 'P1');
+        });
+        var p2 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 600, 'P2');
+        });
+        // 同时执行p1和p2，并在它们都完成后执行then:
+        Promise.all([p1, p2]).then(function (results) {
+            console.log(results); // 获得一个Array: ['P1', 'P2']
+        });
+        // 3、promise,race()多个异步任务容错
+        var p1 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 500, 'P1');
+        });
+        var p2 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 600, 'P2');
+        });
+        Promise.race([p1, p2]).then(function (result) {
+            console.log(result); // 'P1'
+        });
+
+        
+    </script>
+</body>
+</html>
